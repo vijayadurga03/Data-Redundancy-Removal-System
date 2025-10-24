@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            background-image: url("https://img.freepik.com/free-vector/cloud-network-system-background-vector-social-media-banner_53876-111851.jpg?semt=ais_hybrid");
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex-column;
+            justify-content: center;
+            align-items: center;
+            margin-left:20vw;
+            margin-top:10vh;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding-right: 50px;
+            margin-left:10vw;
+        }
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .input-field:focus {
+            border-color: black;
+            outline: none;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top:10px;
+            margin-bottom:20px
+        }
+        .login-btn:hover {
+            background-color: #fc8c03;
+        }
+
+        .form-footer a {
+            text-decoration: none;
+            color: red;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+            color: black;
+            font-weight: bold;
+        }
+
+        .reset-color a {
+            text-decoration: none;
+            color:blue;
+        }
+        .reset-color a:hover{
+            text-decoration: underline;
+            color:black;
+            font-weight: bold;
+        }
+
+
+        .show-password {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .show-password input {
+            margin-right: 10px;
+        }
+        .alert {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: left;
+            transition: opacity 0.5s ease;
+        }
+        
+        .alert.error {
+            color: #721c24; /* Red text */
+            background-color: #f8d7da; /* Light red background */
+            border: 1px solid #f5c6cb; /* Red border */
+        }
+        
+        .alert.success {
+            color: #155724; /* Green text */
+            background-color: #d4edda; /* Light green background */
+            border: 1px solid #c3e6cb; /* Green border */
+        }
+        .heading{
+            font-size:30px;
+        }
+        
+        
+    </style>
+</head>
+<body>
+    <div>
+        <h1 class="heading"> Welcome to the Data Redundancy Removal System in Cloud...</h1>
+    </div>
+    <div class="login-container">
+        <h2>Login</h2>
+
+        <form action="/login" method="POST">
+            <input type="text" name="username" class="input-field" placeholder="Username" required>
+            <input type="password" name="password" class="input-field" id="password" placeholder="Password" required>
+
+            <!-- Show Password Option -->
+            <div class="show-password">
+                <input type="checkbox" id="showPassword"> <label for="showPassword">Show Password</label>
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+        
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+        <div class="form-footer">
+            <p>I don't have an account? <a href="/register" class="font-color">Register Here</a></p>
+        </div>
+
+        <!-- Forgot Password Link -->
+        <div class="reset-color">
+            <p>forgot my password? <a href="/forgotpassword" class="reset-color">Reset it here</a></p>
+        </div>     
+    </div>
+
+    <script>
+        // Toggle password visibility
+        document.getElementById('showPassword').addEventListener('change', function() {
+            var passwordField = document.getElementById('password');
+            if (this.checked) {
+                passwordField.type = 'text'; // Show password
+            } else {
+                passwordField.type = 'password'; // Hide password
+            }
+        });
+    </script>
+    <script>
+        // Auto-hide flash messages after 2 seconds
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.style.opacity = '0'; // Gradually make it invisible
+                setTimeout(() => {
+                    alert.remove(); // Remove it from DOM after fade-out
+                }, 500); // Wait for fade-out transition to complete
+            });
+        }, 2000); // 2 seconds before starting fade-out
+    </script>
+</body>
+</html>

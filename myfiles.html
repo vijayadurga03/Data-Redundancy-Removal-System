@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Files</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            padding: 14px 20px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4432a8;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        .file-name {
+            text-align: left;
+            max-width: 300px; /* Prevent overly long filenames from breaking layout */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px; /* Equal spacing between buttons */
+        }
+
+        .action-buttons form {
+            margin: 0; /* Prevent margin issues from affecting layout */
+        }
+        .back-link {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+    
+        .back-link a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    
+        .back-link a:hover {
+            color: black;
+            text-decoration: underline;
+        }
+        .transparent-button {
+            background-color: transparent; 
+            border: 2px solid #007BFF; 
+            color: #007BFF;              
+            padding: 10px 20px;   
+            font-size: 16px;            
+            border-radius: 5px;        
+            cursor: pointer;             
+            transition: background-color 0.3s, color 0.3s; 
+          }
+          
+          .transparent-button:hover {
+            background-color: #007BFF;   /* Add background color on hover */
+            color: #fff;                 /* Change text color on hover */
+          }
+          
+    </style>
+</head>
+<body>
+    <form action="/myfiles" method="POST">
+        <div class="navbar">
+            <a href="{{ url_for('homepage', username=username) }}">Home</a>
+            <a href="myfiles">My Files</a>
+            <a href="/logout">Logout</a>
+            <a href="uploadfiles">Upload File</a>
+        </div>
+
+        <div class="content">
+            <h2>My Files</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Filename</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for file in files %}
+                    <tr>
+                        <td class="file-name">{{ file.filename }}</td>
+                        <td class="action-buttons">
+                            <a href="{{ url_for('download_file', file_id=file.id) }}" class="transparent-button">Download</a>                            
+                            <form action="{{ url_for('delete_file', file_id=file.id) }}" method="POST">
+                                <button type="submit" class="transparent-button">Delete</button>
+                            </form>
+                            <button onclick="window.open('/view/{{ file.id }}', '_blank')" class="transparent-button">View</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <p class="back-link">Back to Home! <a href="homepage">Home</a></p>
+    </form>
+</body>
+</html>
